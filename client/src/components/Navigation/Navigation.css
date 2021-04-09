@@ -1,0 +1,9 @@
+/** @format */
+
+nav {
+  background-color: darkslategrey;
+  color: white;
+  height: 50px;
+  padding: 16px;
+  width: 100%;
+}

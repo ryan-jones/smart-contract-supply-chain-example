@@ -1,0 +1,44 @@
+/** @format */
+
+.itemManagement {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.itemList {
+  height: 100%;
+  padding: 16px;
+  width: 75%;
+}
+
+.addItem {
+  background-color: aliceblue;
+  padding: 16px;
+}
+
+.addItem__listItem {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.inputContainer {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  width: calc(50% - 16px);
+}
+
+input {
+  width: calc(100% - 8px);
+}
+
+.addItem__btn {
+  background-color: darkblue;
+  border-radius: 4px;
+  color: white;
+  margin-top: 16px;
+  width: 100%;
+}
