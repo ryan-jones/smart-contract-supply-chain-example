@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  supply_chain_ui_app:
+    build: ./client
+    container_name: client
+    command: npm start
+    depends_on:
+      - supply_chain_ui_api
+    volumes:
+      - ./client:/usr/src/app/client
+    environment:
+      NODE_ENV: ${NODE_ENV}
+    ports:
+      - "3000:3000"
+    stdin_open: true
+  supply_chain_ui_api:
+    build: ./api
+    container_name: api
+    command: npm start
+    links:
+      - supply_chain_ui_db
+    environment:
+      MONGO_DOCKER_URI: ${MONGO_DOCKER_URI}
+      CLIENT_URI: ${CLIENT_URI}
+    volumes:
+      - ./api:/usr/src/app/api
+    ports:
+      - "8080:8080"
+  supply_chain_ui_db:
+    container_name: db
+    image: mongo
+    ports:
+      - "27017:27017"
