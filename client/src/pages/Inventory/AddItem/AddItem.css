@@ -1,0 +1,19 @@
+.addItem {
+  background-color: aliceblue;
+}
+
+.addItem__listItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.addItem__btn {
+  background-color: darkblue;
+  border-radius: 4px;
+  color: white;
+  margin-top: 16px;
+  width: 100%;
+}

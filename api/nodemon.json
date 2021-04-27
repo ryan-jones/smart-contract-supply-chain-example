@@ -1,3 +1,11 @@
 {
-  "watch": ["index.ts", "api/"]
+  "watch": [
+    "index.ts",
+    "./controllers",
+    "./models",
+    "./routes",
+    "./utils",
+    "./middleware",
+    "./interfaces"
+  ]
 }

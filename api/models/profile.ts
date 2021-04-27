@@ -31,6 +31,26 @@ const ProfileSchema = new Schema({
     required: true,
     type: String,
   },
+  role: {
+    require: true,
+    type: String,
+    default: "basic",
+    enum: ["basic", "admin"],
+  },
+  accessToken: {
+    type: String,
+  },
 });
 
-export default mongoose.model("profile", ProfileSchema);
+export interface IProfile extends mongoose.Document {
+  accessToken: string;
+  address: string;
+  dateCreated: Date;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  role: string;
+}
+
+export default mongoose.model<IProfile>("profile", ProfileSchema);

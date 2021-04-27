@@ -1,5 +1,3 @@
-/** @format */
-
 import React, { Suspense } from "react";
 import {
   Switch,
@@ -9,7 +7,11 @@ import {
 } from "react-router-dom";
 
 const Inventory = React.lazy(() =>
-  import(/* webpackChunkName: "Inventory" */ "../components/Inventory")
+  import(/* webpackChunkName: "Inventory" */ "../pages/Inventory")
+);
+
+const Shop = React.lazy(() =>
+  import(/* webpackChunkName: "Shop" */ "../pages/Shop")
 );
 
 const Routes = () => {
@@ -18,6 +20,7 @@ const Routes = () => {
       <Router>
         <Switch>
           <Route exact={true} path="/inventory" render={() => <Inventory />} />
+          <Route exact={true} path="/shop" render={() => <Shop />} />
           <Route
             exact={true}
             path="/"

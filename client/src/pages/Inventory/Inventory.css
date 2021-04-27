@@ -1,0 +1,21 @@
+/** @format */
+
+.inventory {
+  display: flex;
+  height: 100%;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.itemList {
+  height: 100%;
+  padding: 16px;
+  width: 75%;
+}
+
+.updateList {
+  background-color: antiquewhite;
+  height: 100vh;
+  padding: 16px;
+  width: 25%;
+}

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import getWeb3 from "./getWeb3";
 
-import Navigation from "./components/Navigation";
 import Routes from "./routes";
 import "./App.css";
 
@@ -9,11 +8,14 @@ interface Web3ContextProps {
   web3: any;
   owner: string;
 }
-export const Web3Context = React.createContext<Partial<Web3ContextProps>>(null);
+export const Web3Context = React.createContext<Partial<Web3ContextProps>>({
+  web3: null,
+  owner: "",
+});
 
 const App = () => {
   const [loaded, setLoaded] = useState(false);
-  const [accounts, setAccounts] = useState<string[]>(null);
+  const [accounts, setAccounts] = useState<string[]>([]);
   const [web3, setWeb3] = useState(null);
 
   useEffect(() => {
@@ -42,7 +44,6 @@ const App = () => {
   return (
     <Web3Context.Provider value={{ web3, owner: accounts[0] }}>
       <main className="App">
-        <Navigation />
         <Routes />
       </main>
     </Web3Context.Provider>

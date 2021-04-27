@@ -3,7 +3,22 @@
 nav {
   background-color: darkslategrey;
   color: white;
+  display: flex;
   height: 50px;
+  justify-content: space-between;
   padding: 16px;
-  width: 100%;
+}
+
+.navLinks {
+  align-items: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  height: 100%;
+  width: 50%;
+}
+
+a {
+  color: white;
+  margin: 0 8px;
+  text-decoration: none;
 }
