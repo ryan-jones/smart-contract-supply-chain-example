@@ -6,7 +6,7 @@ import { Item } from "src/interfaces/inventory";
 import BaseLayout from "src/components/BaseLayout";
 import ListItem from "src/components/Item";
 import ShoppingCart from "./ShoppingCart";
-import "./Shop.css";
+import "./Shop.scss";
 
 export interface ICartItem extends Item {
   quantity: number;

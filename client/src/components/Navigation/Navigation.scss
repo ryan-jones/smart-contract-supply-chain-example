@@ -1,0 +1,20 @@
+@import "../../styles/global.scss";
+
+nav {
+  @include flex(space-between);
+  background-color: darkslategrey;
+  color: $textWhite;
+  height: 50px;
+  padding: 16px;
+}
+
+.navLinks {
+  @include flex(flex-end, flex-end);
+  @include hw(100%, 50%);
+}
+
+a {
+  color: $textWhite;
+  margin: 0 8px;
+  text-decoration: none;
+}

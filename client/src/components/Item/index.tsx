@@ -1,7 +1,7 @@
 import React from "react";
 import { Item } from "src/interfaces/inventory";
 import Button from "src/components/Button";
-import "./Item.css";
+import "./Item.scss";
 
 interface Props {
   addToCart?: (item: Item) => void;
@@ -13,7 +13,15 @@ interface Props {
 const ListItem = ({ index, item, shop, addToCart, disabled }: Props) => {
   return (
     <div className="item" key={item._id}>
-      {index + 1}. {item.name} Price per unit: {item.price} Qty: {item.amount}
+      <span>
+        {index + 1}. <strong>{item.name}</strong>
+      </span>
+      <span>
+        <strong>Price per unit:</strong> {item.price}
+      </span>
+      <span>
+        <strong>Qty:</strong> {item.amount}
+      </span>
       {shop && (
         <Button
           disabled={Boolean(disabled)}

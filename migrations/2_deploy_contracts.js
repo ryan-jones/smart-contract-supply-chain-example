@@ -1,7 +1,7 @@
 /** @format */
 
-var ItemManager = artifacts.require("./ItemManager.sol");
+var OrderManager = artifacts.require("./OrderManager.sol");
 
 module.exports = function (deployer) {
-  deployer.deploy(ItemManager);
+  deployer.deploy(OrderManager);
 };

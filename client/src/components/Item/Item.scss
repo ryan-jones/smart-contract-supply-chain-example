@@ -1,0 +1,10 @@
+@import "../../styles/global.scss";
+.item {
+  @include flex(space-between, center);
+  margin: 8px 0;
+  width: 100%;
+
+  span {
+    width: 25%;
+  }
+}

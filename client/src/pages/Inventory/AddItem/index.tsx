@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Item } from "src/interfaces/inventory";
 import Input from "src/components/Forms/Input";
 import { SubmitButton } from "src/components/Forms/FormButtons";
-import "./AddItem.css";
+import "./AddItem.scss";
 
 interface IFormItem extends Item {
   qty: number;

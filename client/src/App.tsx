@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import getWeb3 from "./getWeb3";
 
 import Routes from "./routes";
-import "./App.css";
+import "./App.scss";
 
 interface Web3ContextProps {
   web3: any;

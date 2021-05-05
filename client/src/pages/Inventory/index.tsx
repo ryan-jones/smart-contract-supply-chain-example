@@ -8,7 +8,7 @@ import { fetchItems, createItem } from "src/api";
 import BaseLayout from "src/components/BaseLayout";
 import ListItem from "src/components/Item";
 import AddItem from "./AddItem";
-import "./Inventory.css";
+import "./Inventory.scss";
 
 const Inventory = () => {
   const [itemsList, setItemsList] = useState<Item[]>([]);

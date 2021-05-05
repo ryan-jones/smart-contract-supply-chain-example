@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../../Button";
-import "./FormButtons.css";
+import "./FormButtons.scss";
 
 export const SubmitButton = ({ children, disabled }) => {
   return (

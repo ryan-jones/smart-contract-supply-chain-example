@@ -1,0 +1,16 @@
+.cart {
+  background-color: aliceblue;
+  padding: 8px;
+
+  &__listItem {
+    width: 100%;
+    border-bottom: 1px solid black;
+  }
+
+  &__line {
+    align-items: flex-end;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+  }
+}

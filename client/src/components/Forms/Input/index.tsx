@@ -1,6 +1,6 @@
 import React from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
-import "./Input.css";
+import "./Input.scss";
 
 interface Props {
   id: string;

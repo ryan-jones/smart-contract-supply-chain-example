@@ -7,7 +7,7 @@ import Select from "src/components/Forms/Select";
 import { SubmitButton, DeleteButton } from "src/components/Forms/FormButtons";
 import { ICartItem } from "..";
 import { Total, SubTotal } from "./Totals";
-import "./ShoppingCart.css";
+import "./ShoppingCart.scss";
 
 interface IProps {
   selectedItems: ICartItem[];
