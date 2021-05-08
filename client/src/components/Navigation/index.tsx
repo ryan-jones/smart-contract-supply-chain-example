@@ -11,6 +11,7 @@ const Navigation = () => {
       <h1>Supply Chain Distribution Management Example</h1>
       <div className="navLinks">
         <Link to="/shop">Shop</Link>
+        <Link to="/orders">Orders</Link>
         <Link to="/inventory">Manage Inventory</Link>
       </div>
     </nav>

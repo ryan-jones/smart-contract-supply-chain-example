@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
+import { Item } from "../interfaces/items";
 
-const Schema = mongoose.Schema;
-
-const ItemSchema = new Schema({
+const ItemSchema = new mongoose.Schema({
   dateCreated: {
     default: Date.now(),
     type: Date,
@@ -14,19 +13,13 @@ const ItemSchema = new Schema({
   price: {
     required: true,
     type: Number,
+    min: 0,
   },
   amount: {
     required: true,
     type: Number,
+    min: 0,
   },
 });
-
-export interface Item extends mongoose.Document {
-  amount: number;
-  dateCreated: Date;
-  name: string;
-  price: number;
-  id?: string;
-}
 
 export default mongoose.model<Item>("item", ItemSchema);

@@ -1,6 +1,7 @@
-import { Item } from "src/interfaces/inventory";
+import { Item, IFormItem } from "src/interfaces/inventory";
+import { IFormOrder, IOrder } from "src/interfaces/orders";
 
-const itemQuery = async (
+const query = async (
   path: string,
   payload?: { method: string; body: string; headers: { [key: string]: string } }
 ) => {
@@ -9,7 +10,7 @@ const itemQuery = async (
     if (!res.ok) {
       throw new Error("Network response was not ok");
     }
-    const data: Item[] = await res.json();
+    const data: any = await res.json();
     return data;
   } catch (err) {
     console.log("err", err);
@@ -17,8 +18,8 @@ const itemQuery = async (
   }
 };
 
-export const createItem = async (item: Item): Promise<Item[]> => {
-  return itemQuery("items/create", {
+export const createItem = async (item: IFormItem): Promise<Item[]> => {
+  return query("items/create", {
     method: "POST",
     body: JSON.stringify(item),
     headers: {
@@ -28,5 +29,19 @@ export const createItem = async (item: Item): Promise<Item[]> => {
 };
 
 export const fetchItems = async (): Promise<Item[]> => {
-  return itemQuery("items");
+  return query("items");
+};
+
+export const createOrder = async (order: IFormOrder): Promise<IOrder[]> => {
+  return query("orders/create", {
+    method: "POST",
+    body: JSON.stringify(order),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const fetchOrders = async (id: string): Promise<IOrder[]> => {
+  return query(`orders/${id}`);
 };

@@ -1,13 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Item } from "src/interfaces/inventory";
+import { IFormItem } from "src/interfaces/inventory";
 import Input from "src/components/Forms/Input";
 import { SubmitButton } from "src/components/Forms/FormButtons";
 import "./AddItem.scss";
 
-interface IFormItem extends Item {
-  qty: number;
-}
 interface IAddItem {
   onSubmit: (item: IFormItem) => void;
 }
@@ -41,7 +38,7 @@ const AddItem = ({ onSubmit }: IAddItem) => {
           type="number"
           label="Quantity:"
           registeredValue={register("amount", { required: true })}
-          error={errors.qty && "This field is required"}
+          error={errors.quantity && "This field is required"}
         />
       </div>
       <SubmitButton disabled={false}>Add Item</SubmitButton>

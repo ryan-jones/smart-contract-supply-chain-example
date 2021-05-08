@@ -1,5 +1,6 @@
-import Product, { Item } from "../models/item";
 import { Request, Response, NextFunction } from "express";
+import { IPurchasedItem, Item } from "interfaces/items";
+import ItemService from "../services/itemService";
 
 export async function getItems(
   req: Request,
@@ -7,7 +8,7 @@ export async function getItems(
   next: NextFunction
 ) {
   try {
-    const items: Item[] = await Product.find();
+    const items: Item[] = await ItemService.getItems();
     res.send(items);
   } catch (err) {
     next(err);
@@ -20,8 +21,7 @@ export async function createItem(
   next: NextFunction
 ) {
   try {
-    const newItem: Item = new Product(req.body);
-    const result: Item = await newItem.save();
+    const newItem: Item = await ItemService.createItem(req.body);
     getItems(req, res, next);
   } catch (err) {
     next(err);
@@ -34,7 +34,7 @@ export async function editItem(
   next: NextFunction
 ) {
   try {
-    const result: Item = await Product.findOneAndUpdate(
+    const result: Item = await ItemService.updateItem(
       { _id: req.params.id },
       { $set: { ...req.body } },
       { new: true }
@@ -51,7 +51,7 @@ export async function deleteItem(
   next: NextFunction
 ) {
   try {
-    const result: Item = await Product.findOneAndRemove({ _id: req.params.id });
+    const result: Item = await ItemService.deleteItem(req.params.id);
     getItems(req, res, next);
   } catch (err) {
     next(err);

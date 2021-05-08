@@ -1,8 +1,7 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import { Item } from "src/interfaces/inventory";
-// import useWeb3 from "src/hooks/useWeb3";
+import { Item, IFormItem } from "src/interfaces/inventory";
 import { fetchItems, createItem } from "src/api";
 
 import BaseLayout from "src/components/BaseLayout";
@@ -12,24 +11,6 @@ import "./Inventory.scss";
 
 const Inventory = () => {
   const [itemsList, setItemsList] = useState<Item[]>([]);
-
-  // const { owner, createContract } = useWeb3();
-
-  // useEffect(() => {
-  //   const init = async (): Promise<void> => {
-  //     const itemManagerInstance = await createContract(ItemManagerContract);
-  //     const itemInstance = await createContract(ItemContract);
-  //     setItemManager(itemManagerInstance);
-  //     if (itemManagerInstance) {
-  //       itemManagerInstance.events
-  //         .SupplyChainStep()
-  //         .on("data", async (event) => {
-  //           console.log("trigger", event);
-  //         });
-  //     }
-  //   };
-  //   init();
-  // }, []);
 
   useEffect(() => {
     const init = async () => {
@@ -45,7 +26,7 @@ const Inventory = () => {
     init();
   }, []);
 
-  const onSubmit = async (item: Item) => {
+  const onSubmit = async (item: IFormItem) => {
     try {
       const items: Item[] = await createItem(item);
       setItemsList(items);

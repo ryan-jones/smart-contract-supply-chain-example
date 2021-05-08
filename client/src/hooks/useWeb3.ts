@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Web3Context } from "../App";
 
 const useWeb3 = () => {
-  const { web3, owner } = useContext(Web3Context);
+  const { web3, owner = "", orderManager } = useContext(Web3Context);
 
   const createContract = async (contract: any) => {
     try {
@@ -23,6 +23,7 @@ const useWeb3 = () => {
   return {
     web3,
     owner,
+    orderManager,
     createContract,
   };
 };

@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import differenceBy from "lodash/differenceBy";
 
-import { Item } from "src/interfaces/inventory";
+import { ICartItem, Item } from "src/interfaces/inventory";
+import useWeb3 from "src/hooks/useWeb3";
 import Select from "src/components/Forms/Select";
 import { SubmitButton, DeleteButton } from "src/components/Forms/FormButtons";
-import { ICartItem } from "..";
 import { Total, SubTotal } from "./Totals";
 import "./ShoppingCart.scss";
+import { createOrder } from "src/api";
 
 interface IProps {
   selectedItems: ICartItem[];
@@ -18,7 +19,11 @@ export type FormValues = {
   cart: ICartItem[];
 };
 
+type IStatus = "created" | "paid" | "delivered";
+const STATUS: IStatus[] = ["created", "paid", "delivered"];
+
 const ShoppingCart = ({ selectedItems, removeFromCart }: IProps) => {
+  const { owner, orderManager } = useWeb3();
   const {
     register,
     control,
@@ -26,7 +31,10 @@ const ShoppingCart = ({ selectedItems, removeFromCart }: IProps) => {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      cart: selectedItems.map((item: Item) => ({ ...item, quantity: 1 })),
+      cart: selectedItems.map((item: Item) => ({
+        ...item,
+        quantity: 1,
+      })),
     },
     mode: "onBlur",
   });
@@ -35,8 +43,30 @@ const ShoppingCart = ({ selectedItems, removeFromCart }: IProps) => {
     control,
   });
 
-  const onSubmit = (checkoutItems: FormValues) => {
-    console.log("onSubmit", checkoutItems);
+  const onSubmit = async (checkoutItems: FormValues) => {
+    const total = checkoutItems.cart.reduce(
+      (acc, current) => acc + (current.price || 0) * (current.quantity || 0),
+      0
+    );
+    try {
+      const order = await orderManager.methods
+        .createOrder(new Date().toISOString(), total)
+        .send({ from: owner });
+      await createOrder({
+        owner,
+        total,
+        recipientAddress: order.events.SupplyChainStep.address,
+        orderAddress: order.events.SupplyChainStep.returnValues._itemAddress,
+        status: STATUS[order.events.SupplyChainStep.returnValues._step],
+        orderItems: checkoutItems.cart.map((item: ICartItem) => ({
+          _id: item._id,
+          quantity: item.quantity,
+          amount: item.amount,
+        })),
+      });
+    } catch (err) {
+      alert(err);
+    }
   };
 
   useEffect(() => {

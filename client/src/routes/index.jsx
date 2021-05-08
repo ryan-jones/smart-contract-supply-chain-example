@@ -14,6 +14,10 @@ const Shop = React.lazy(() =>
   import(/* webpackChunkName: "Shop" */ "../pages/Shop")
 );
 
+const Orders = React.lazy(() =>
+  import(/* webpackChunkNsme: "Orders" */ "../pages/Orders")
+);
+
 const Routes = () => {
   return (
     <Suspense fallback={<div>...loading</div>}>
@@ -21,6 +25,7 @@ const Routes = () => {
         <Switch>
           <Route exact={true} path="/inventory" render={() => <Inventory />} />
           <Route exact={true} path="/shop" render={() => <Shop />} />
+          <Route exact={true} path="/orders" render={() => <Orders />} />
           <Route
             exact={true}
             path="/"
