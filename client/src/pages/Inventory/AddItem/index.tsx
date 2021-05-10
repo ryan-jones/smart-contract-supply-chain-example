@@ -2,19 +2,24 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { IFormItem } from "src/interfaces/inventory";
 import Input from "src/components/Forms/Input";
+import { useDispatch } from "react-redux";
+
 import { SubmitButton } from "src/components/Forms/FormButtons";
+import { createNewItem } from "src/store/actions/inventory";
+
 import "./AddItem.scss";
 
-interface IAddItem {
-  onSubmit: (item: IFormItem) => void;
-}
-
-const AddItem = ({ onSubmit }: IAddItem) => {
+const AddItem = () => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IFormItem>();
+
+  const onSubmit = async (item: IFormItem) => {
+    dispatch(createNewItem(item));
+  };
 
   return (
     <form className="addItem" onSubmit={handleSubmit(onSubmit)}>

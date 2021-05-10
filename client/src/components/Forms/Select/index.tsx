@@ -15,7 +15,9 @@ const Select = React.forwardRef<
     {label && <label>{label}</label>}
     <select id={id} name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
       {options.map((option) => (
-        <option value={option.value}>{option.name}</option>
+        <option key={option.value} value={option.value}>
+          {option.name}
+        </option>
       ))}
     </select>
   </>

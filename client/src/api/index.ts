@@ -32,7 +32,7 @@ export const fetchItems = async (): Promise<Item[]> => {
   return query("items");
 };
 
-export const createOrder = async (order: IFormOrder): Promise<IOrder[]> => {
+export const createOrder = async (order: IFormOrder): Promise<Item[]> => {
   return query("orders/create", {
     method: "POST",
     body: JSON.stringify(order),

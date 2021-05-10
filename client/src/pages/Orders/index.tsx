@@ -1,39 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { fetchOrders } from "src/api";
-
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { IOrder } from "src/interfaces/orders";
 import BaseLayout from "src/components/BaseLayout";
 import { ICartItem } from "src/interfaces/inventory";
 import useWeb3 from "src/hooks/useWeb3";
+import { fetchUserOrders } from "src/store/actions/orders";
+import "./Orders.scss";
 
 const Orders = () => {
-  const [orders, setOrders] = useState<IOrder[]>([]);
+  const dispatch = useDispatch();
+  const { items: orders } = useSelector((state: any) => state.orders);
   const { owner } = useWeb3();
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        const orders: IOrder[] = await fetchOrders(owner);
-        if (orders.length) {
-          setOrders(orders);
-        }
-      } catch (err) {
-        console.log("err onfetch", err);
-      }
-    };
-    init();
-  }, []);
+    dispatch(fetchUserOrders(owner));
+  }, [dispatch]);
 
   return (
     <BaseLayout>
-      <div>
+      <div className="orderPage">
         {orders.map((order: IOrder, index: number) => (
-          <div key={order._id}>
+          <div className="order" key={order._id}>
             <h2>
               Order {index} - {order.status}
             </h2>
             {order.orderItems.map((item: ICartItem) => (
-              <div>
+              <div key={item._id}>
                 <p>
                   {item.name} - {item.quantity}
                 </p>

@@ -1,39 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { fetchItems } from "src/api";
-import { Item, ICartItem } from "src/interfaces/inventory";
-
+import { Item } from "src/interfaces/inventory";
+import { addToShoppingCart } from "src/store/actions/shoppingCart";
+import { fetchInventory } from "src/store/actions/inventory";
 import BaseLayout from "src/components/BaseLayout";
 import ListItem from "src/components/Item";
-import ShoppingCart from "./ShoppingCart";
 import "./Shop.scss";
 
 const Shop = () => {
-  const [itemsList, setItemsList] = useState<Item[]>([]);
-  const [shoppingCart, setShoppingCart] = useState<ICartItem[]>([]);
+  const dispatch = useDispatch();
+  const { items, hasFetched } = useSelector((state: any) => state.inventory);
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        const items: Item[] = await fetchItems();
-        if (items) {
-          setItemsList(items);
-        }
-      } catch (err) {
-        console.log("error onfetch", err);
-      }
-    };
-    init();
-  }, []);
+    if (!items.length && !hasFetched) {
+      dispatch(fetchInventory());
+    }
+  }, [items, hasFetched]);
 
   const addToCart = (item: Item) => {
-    setShoppingCart((prev: ICartItem[]) => [...prev, { ...item, quantity: 1 }]);
-  };
-
-  const removeFromCart = (item: ICartItem) => {
-    setShoppingCart((prev: ICartItem[]) =>
-      prev.filter((listItem: ICartItem) => listItem._id !== item._id)
-    );
+    dispatch(addToShoppingCart({ ...item, quantity: 1 }));
   };
 
   return (
@@ -42,25 +28,15 @@ const Shop = () => {
         <div className="itemList">
           <h2>Item List</h2>
 
-          {itemsList.map((it: Item, index: number) => (
+          {items.map((it: Item, index: number) => (
             <ListItem
               key={`${it._id}-${index}`}
               shop
-              disabled={shoppingCart.some(
-                (item: ICartItem) => item._id === it._id
-              )}
               addToCart={addToCart}
               item={it}
               index={index}
             />
           ))}
-        </div>
-        <div className="shoppingCart">
-          <h2>Checkout</h2>
-          <ShoppingCart
-            removeFromCart={removeFromCart}
-            selectedItems={shoppingCart}
-          />
         </div>
       </div>
     </BaseLayout>

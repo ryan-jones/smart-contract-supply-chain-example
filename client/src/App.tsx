@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import getWeb3 from "./getWeb3";
-
+import { Provider } from "react-redux";
 import OrderManager from "src/contracts/OrderManager.json";
+import getWeb3 from "./getWeb3";
 import Routes from "./routes";
+import store from "./store";
+
 import "./App.scss";
 
 interface Web3ContextProps {
@@ -51,13 +53,15 @@ const App = () => {
     return <div>Loading Web3, accounts, and contract...</div>;
   }
   return (
-    <Web3Context.Provider
-      value={{ web3, owner: accounts[0] || "", orderManager }}
-    >
-      <main className="App">
-        <Routes />
-      </main>
-    </Web3Context.Provider>
+    <Provider store={store}>
+      <Web3Context.Provider
+        value={{ web3, owner: accounts[0] || "", orderManager }}
+      >
+        <main className="App">
+          <Routes />
+        </main>
+      </Web3Context.Provider>
+    </Provider>
   );
 };
 

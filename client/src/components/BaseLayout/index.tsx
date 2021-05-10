@@ -6,10 +6,10 @@ interface Props {
 }
 const BaseLayout = (props: Props) => {
   return (
-    <>
+    <div style={{ minHeight: "100vh" }}>
       <Navigation />
       {props.children}
-    </>
+    </div>
   );
 };
 

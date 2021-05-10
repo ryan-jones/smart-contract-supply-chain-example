@@ -1,39 +1,19 @@
-/** @format */
-
-import React, { useState, useEffect } from "react";
-import { Item, IFormItem } from "src/interfaces/inventory";
-import { fetchItems, createItem } from "src/api";
-
+import React, { useEffect } from "react";
+import { Item } from "src/interfaces/inventory";
+import { useDispatch, useSelector } from "react-redux";
 import BaseLayout from "src/components/BaseLayout";
 import ListItem from "src/components/Item";
 import AddItem from "./AddItem";
 import "./Inventory.scss";
+import { fetchInventory } from "src/store/actions/inventory";
 
 const Inventory = () => {
-  const [itemsList, setItemsList] = useState<Item[]>([]);
+  const { items } = useSelector((state: any) => state.inventory);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        const items: Item[] = await fetchItems();
-        if (items) {
-          setItemsList(items);
-        }
-      } catch (err) {
-        console.log("error onfetch", err);
-      }
-    };
-    init();
+    dispatch(fetchInventory());
   }, []);
-
-  const onSubmit = async (item: IFormItem) => {
-    try {
-      const items: Item[] = await createItem(item);
-      setItemsList(items);
-    } catch (err) {
-      console.log("error onSubmit", err);
-    }
-  };
 
   return (
     <BaseLayout>
@@ -41,12 +21,12 @@ const Inventory = () => {
         <div className="itemList">
           <h2>Item List</h2>
 
-          {itemsList.map((it: Item, index: number) => (
+          {items.map((it: Item, index: number) => (
             <ListItem item={it} index={index} />
           ))}
         </div>
         <div className="updateList">
-          <AddItem onSubmit={onSubmit} />
+          <AddItem />
         </div>
       </div>
     </BaseLayout>

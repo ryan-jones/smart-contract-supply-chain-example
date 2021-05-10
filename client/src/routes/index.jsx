@@ -13,9 +13,18 @@ const Inventory = React.lazy(() =>
 const Shop = React.lazy(() =>
   import(/* webpackChunkName: "Shop" */ "../pages/Shop")
 );
+const Checkout = React.lazy(() =>
+  import(/* webpackChunkName: "Checkout" */ "../pages/Checkout")
+);
 
 const Orders = React.lazy(() =>
   import(/* webpackChunkNsme: "Orders" */ "../pages/Orders")
+);
+
+const OrderConfirmation = React.lazy(() =>
+  import(
+    /* webpackChunkName: "OrderConfirmation" */ "../pages/OrderConfirmation"
+  )
 );
 
 const Routes = () => {
@@ -25,7 +34,13 @@ const Routes = () => {
         <Switch>
           <Route exact={true} path="/inventory" render={() => <Inventory />} />
           <Route exact={true} path="/shop" render={() => <Shop />} />
+          <Route exact={true} path="/checkout" render={() => <Checkout />} />
           <Route exact={true} path="/orders" render={() => <Orders />} />
+          <Route
+            exact={true}
+            path="/orders/confirmation"
+            render={() => <OrderConfirmation />}
+          />
           <Route
             exact={true}
             path="/"
