@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
 import OrderManager from "src/contracts/OrderManager.json";
 import getWeb3 from "./getWeb3";
 import Routes from "./routes";
 import store from "./store";
 
 import "./App.scss";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Web3ContextProps {
   web3: any;
@@ -60,6 +62,10 @@ const App = () => {
         <main className="App">
           <Routes />
         </main>
+        <ToastContainer
+          bodyClassName="toast-body"
+          className="toast-container"
+        />
       </Web3Context.Provider>
     </Provider>
   );

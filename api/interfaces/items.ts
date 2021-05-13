@@ -10,9 +10,9 @@ export interface Item extends mongoose.Document {
 export interface IPurchasedItem {
   _id: string;
   quantity: number;
+  price: number;
 }
 
 export interface IOrderItem extends IPurchasedItem {
   name: string;
-  price: number;
 }

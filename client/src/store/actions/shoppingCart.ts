@@ -1,6 +1,7 @@
 import { retrieveShoppingCart, setShoppingCart } from "src/utils/localStorage";
 import { ICartItem } from "src/interfaces/inventory";
 import { AppDispatch, AppThunk } from "..";
+import { toastSuccess } from "src/utils/toasters";
 
 export const UPDATE_SHOPPING_CART = "UPDATE_SHOPPING_CART";
 
@@ -19,25 +20,24 @@ export const fetchShoppingCart = (): AppThunk => {
 export const addToShoppingCart = (item: ICartItem): AppThunk => {
   return async (dispatch: AppDispatch, getState): Promise<void> => {
     const updatedCart: ICartItem[] = [...getState().shoppingCart.items];
-    const itemInCart = updatedCart.findIndex(
-      (item: ICartItem) => item._id === item._id
+    const itemInCart: number = updatedCart.findIndex(
+      (i: ICartItem) => i._id === item._id
     );
     if (itemInCart >= 0) {
-      updatedCart.splice(itemInCart, 1, {
-        ...item,
-        quantity: updatedCart[itemInCart].quantity++,
-      });
+      updatedCart[itemInCart] = {
+        ...updatedCart[itemInCart],
+        quantity: Number(updatedCart[itemInCart].quantity) + 1,
+      };
     } else {
       updatedCart.push(item);
     }
-    console.log("updatedCart", updatedCart);
-    setShoppingCart(updatedCart);
     dispatch(updateCart(updatedCart));
+    setShoppingCart(updatedCart);
+    toastSuccess(`${item.name} added to cart`, item._id, { autoClose: 1000 });
   };
 };
 
 export const removeFromShoppingCart = (item: ICartItem): AppThunk => {
-  console.log("removeFromShoppingCart", item);
   return async (dispatch: AppDispatch, getState): Promise<void> => {
     const updatedCart: ICartItem[] = [...getState().shoppingCart.items];
     const index = updatedCart.findIndex((i: ICartItem) => i._id === item._id);
@@ -51,7 +51,6 @@ export const removeFromShoppingCart = (item: ICartItem): AppThunk => {
 
 export const updateShoppingCart = (item: ICartItem): AppThunk => {
   return async (dispatch: AppDispatch, getState): Promise<void> => {
-    console.log("updateShoppingCart", item);
     const updatedCart: ICartItem[] = [...getState().shoppingCart.items];
     const index = updatedCart.findIndex((i: ICartItem) => i._id === item._id);
     if (index >= 0) {

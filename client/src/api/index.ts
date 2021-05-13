@@ -3,7 +3,7 @@ import { IFormOrder, IOrder } from "src/interfaces/orders";
 
 const query = async (
   path: string,
-  payload?: { method: string; body: string; headers: { [key: string]: string } }
+  payload?: { method: string; body: any; headers?: { [key: string]: string } }
 ) => {
   try {
     const res = await fetch(`http://localhost:4000/api/${path}`, payload);
@@ -32,7 +32,9 @@ export const fetchItems = async (): Promise<Item[]> => {
   return query("items");
 };
 
-export const createOrder = async (order: IFormOrder): Promise<Item[]> => {
+export const createOrder = async (
+  order: IFormOrder
+): Promise<{ inventory: Item[]; orderId: string }> => {
   return query("orders/create", {
     method: "POST",
     body: JSON.stringify(order),
@@ -43,5 +45,17 @@ export const createOrder = async (order: IFormOrder): Promise<Item[]> => {
 };
 
 export const fetchOrders = async (id: string): Promise<IOrder[]> => {
-  return query(`orders/${id}`);
+  return query(`orders/all/${id}`);
+};
+
+export const fetchOrder = async (
+  owner: string,
+  orderId: string
+): Promise<IOrder> => {
+  return query(`orders/one/${owner}`, {
+    method: "POST",
+    body: {
+      orderId,
+    },
+  });
 };

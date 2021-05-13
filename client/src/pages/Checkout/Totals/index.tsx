@@ -1,13 +1,8 @@
 import React from "react";
-import { useWatch, Control } from "react-hook-form";
-import { FormValues } from "..";
+import { ICartItem } from "src/interfaces/inventory";
 
-export const Total = ({ control }: { control: Control<FormValues> }) => {
-  const formValues = useWatch({
-    name: "cart",
-    control,
-  });
-  const total = formValues.reduce(
+export const Total = ({ items }: { items: ICartItem[] }) => {
+  const total = items.reduce(
     (acc, current) => acc + (current.price || 0) * (current.quantity || 0),
     0
   );
@@ -15,16 +10,11 @@ export const Total = ({ control }: { control: Control<FormValues> }) => {
 };
 
 export const SubTotal = ({
-  control,
-  index,
+  quantity,
+  price,
 }: {
-  control: Control<FormValues>;
-  index: number;
+  quantity: number;
+  price: number;
 }) => {
-  const formValues = useWatch({ name: "cart", control });
-  return (
-    <span>
-      {(formValues[index].price || 0) * (formValues[index].quantity || 0)}
-    </span>
-  );
+  return <span>{(price || 0) * (quantity || 0)}</span>;
 };

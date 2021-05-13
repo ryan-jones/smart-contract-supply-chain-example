@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { connectRouter } from "connected-react-router";
 
 import shoppingCart, { IShoppingCartState } from "./shoppingCart";
 import inventory, { InventoryState } from "./inventory";
@@ -10,10 +11,12 @@ export type RootState = {
   orders: IOrderState;
 };
 
-const rootReducer = combineReducers({
-  shoppingCart,
-  inventory,
-  orders,
-});
+const rootReducer = (history: any) =>
+  combineReducers({
+    router: connectRouter(history),
+    shoppingCart,
+    inventory,
+    orders,
+  });
 
 export default rootReducer;

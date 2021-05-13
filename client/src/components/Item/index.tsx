@@ -20,7 +20,7 @@ const ListItem = ({ index, item, shop, addToCart, disabled }: Props) => {
         <strong>Price per unit:</strong> {item.price}
       </span>
       <span>
-        <strong>Qty:</strong> {item.amount}
+        <strong>Available:</strong> {item.amount}
       </span>
       {shop && (
         <Button

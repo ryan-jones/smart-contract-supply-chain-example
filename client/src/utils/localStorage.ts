@@ -8,3 +8,7 @@ export const retrieveShoppingCart = (): ICartItem[] => {
 export const setShoppingCart = (cart: ICartItem[]) => {
   localStorage.setItem("shoppingCart", JSON.stringify(cart));
 };
+
+export const clearShoppingCart = () => {
+  localStorage.removeItem("shoppingCart");
+};

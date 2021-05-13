@@ -1,5 +1,6 @@
 import Order from "../models/Order";
 import { IOrder } from "../interfaces/orders";
+import { notFound } from "../utils/errors";
 
 type MongoParam = { [key: string]: any };
 
@@ -9,7 +10,18 @@ const getOrders = async (owner: string): Promise<IOrder[]> => {
       dateCreated: "desc",
     })
     .lean();
+  if (!results) {
+    throw notFound();
+  }
   return results;
+};
+
+const getOrder = async (owner: string, id: string): Promise<IOrder> => {
+  const result: IOrder = await Order.findById(id).lean();
+  if (!result || result.owner !== owner) {
+    throw notFound();
+  }
+  return result;
 };
 
 const createOrder = async (order: IOrder): Promise<IOrder> => {
@@ -31,4 +43,4 @@ const updateOrder = async (
   return updatedOrder;
 };
 
-export default { getOrders, createOrder, updateOrder };
+export default { getOrders, getOrder, createOrder, updateOrder };

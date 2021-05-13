@@ -1,16 +1,15 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { IFormItem } from "src/interfaces/inventory";
-import Input from "src/components/Forms/Input";
-import { useDispatch } from "react-redux";
-
-import { SubmitButton } from "src/components/Forms/FormButtons";
+import { useAppDispatch } from "src/hooks/useRedux";
 import { createNewItem } from "src/store/actions/inventory";
+import Input from "src/components/Forms/Input";
+import { SubmitButton } from "src/components/Forms/FormButtons";
 
 import "./AddItem.scss";
 
 const AddItem = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,

@@ -1,10 +1,7 @@
 import React, { Suspense } from "react";
-import {
-  Switch,
-  Route,
-  BrowserRouter as Router,
-  Redirect,
-} from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { ConnectedRouter } from "connected-react-router";
+import { history } from "src/store";
 
 const Inventory = React.lazy(() =>
   import(/* webpackChunkName: "Inventory" */ "../pages/Inventory")
@@ -30,24 +27,24 @@ const OrderConfirmation = React.lazy(() =>
 const Routes = () => {
   return (
     <Suspense fallback={<div>...loading</div>}>
-      <Router>
+      <ConnectedRouter history={history}>
         <Switch>
           <Route exact={true} path="/inventory" render={() => <Inventory />} />
           <Route exact={true} path="/shop" render={() => <Shop />} />
           <Route exact={true} path="/checkout" render={() => <Checkout />} />
-          <Route exact={true} path="/orders" render={() => <Orders />} />
           <Route
             exact={true}
             path="/orders/confirmation"
             render={() => <OrderConfirmation />}
           />
+          <Route exact={true} path="/orders" render={() => <Orders />} />
           <Route
             exact={true}
             path="/"
             render={() => <Redirect to="/inventory" />}
           />
         </Switch>
-      </Router>
+      </ConnectedRouter>
     </Suspense>
   );
 };

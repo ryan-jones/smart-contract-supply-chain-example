@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Response, Request } from "express";
 import { roles } from "../roles";
-import { unauthorized, forbidden } from "../utils/errors";
+import { unauthorized, forbidden, expired } from "../utils/errors";
 
 export const isAuth = async (
   req: Request,
@@ -13,33 +13,31 @@ export const isAuth = async (
 
     const token: string = authHeader.split(" ")[1];
     if (!token || token === "") {
-      next(unauthorized("You're not signed in!"));
+      next(unauthorized());
     }
     const decodedToken = await jwt.verify(token, "somesupersecretkey");
     if (!decodedToken) {
-      next(unauthorized("You're not signed in!"));
+      next(unauthorized());
     }
     if (decodedToken.exp < Date.now().valueOf() / 1000) {
-      next(unauthorized("Token has expired"));
+      next(expired());
     }
   } catch (err) {
-    next(unauthorized("You're not signed in!"));
+    next(unauthorized());
   }
   next();
 };
 
-export const grantAccess = (action: string, resource: string) => async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const permission = roles().can(req.body.role)[action](resource);
-    if (!permission.granted) {
-      next(forbidden("You don't the right permissions to perform this action"));
+export const grantAccess =
+  (action: string, resource: string) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const permission = roles().can(req.body.role)[action](resource);
+      if (!permission.granted) {
+        next(forbidden());
+      }
+      next();
+    } catch (error) {
+      next(error);
     }
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
+  };

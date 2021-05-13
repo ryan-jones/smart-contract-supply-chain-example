@@ -5,6 +5,15 @@ import { IOrder } from "../interfaces/orders";
 import ItemService from "../services/itemService";
 import OrderService from "../services/orderService";
 
+const buildOrderItems = (order: IOrder, orderItems: Item[]) => ({
+  ...order,
+  orderItems: orderItems.map((item: Item) => ({
+    ...item,
+    quantity: order.orderItems.find((i: IPurchasedItem) => i._id == item._id)
+      .quantity,
+  })),
+});
+
 export const getOrders = async (
   req: Request,
   res: Response,
@@ -17,18 +26,29 @@ export const getOrders = async (
         const orderItems: Item[] = await ItemService.getItems(
           result.orderItems.map((item: IPurchasedItem) => item._id)
         );
-        return {
-          ...result,
-          orderItems: orderItems.map((item: Item) => ({
-            ...item,
-            quantity: result.orderItems.find(
-              (i: IPurchasedItem) => i._id == item._id
-            ).quantity,
-          })),
-        };
+        return buildOrderItems(result, orderItems);
       })
     );
     res.send(orders);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getSingleOrder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const order: IOrder = await OrderService.getOrder(
+      req.params.id,
+      req.body.orderId
+    );
+    const orderItems: Item[] = await ItemService.getItems(
+      order.orderItems.map((item: IPurchasedItem) => item._id)
+    );
+    res.send(buildOrderItems(order, orderItems));
   } catch (err) {
     next(err);
   }
@@ -47,8 +67,8 @@ export const createOrder = async (
         return updatedItem;
       })
     );
-    const items: Item[] = ItemService.getItems();
-    res.send(items);
+    const items: Item[] = await ItemService.getItems();
+    res.send({ inventory: items, orderId: newOrder._id });
   } catch (err) {
     next(err);
   }

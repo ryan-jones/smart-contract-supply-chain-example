@@ -1,15 +1,17 @@
 import { ICartItem, IFormOrderItem } from "./inventory";
 
-export interface IFormOrder {
+export interface IOrderResponse {
   orderAddress: string;
-  orderItems: IFormOrderItem[];
   owner: string;
   recipientAddress: string;
   status: "created" | "paid" | "delivered";
   total: number;
 }
+export interface IFormOrder extends IOrderResponse {
+  orderItems: IFormOrderItem[];
+}
 
-export interface IOrder extends Omit<IFormOrder, "orderItems"> {
+export interface IOrder extends IOrderResponse {
   _id: string;
   orderItems: ICartItem[];
 }
